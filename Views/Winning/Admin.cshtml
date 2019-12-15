@@ -1,0 +1,68 @@
+﻿@model LuckyD.ViewModel.CustomViewModel
+
+@{
+    ViewBag.Title = "Admin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Award", "Winning"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h2 class="text-center">Choosing Winner</h2>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group" style="margin-top: 40px;">
+            @Html.LabelFor(model => model.WinningNumber.Number, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.WinningNumber.Number, new { htmlAttributes = new { @class = "form-control",placeholder = "Please Press Generate Randomly Button", @Value = @ViewBag.Random } })
+                @Html.ValidationMessageFor(model => model.WinningNumber.Number,"", new { @class = "text-danger" })
+            <span class="field-validation-valid text-danger" data-valmsg-for="WinningNumber.Number" data-valmsg-replace="true">@ViewBag.winning</span>
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.WinningNumber.PriceId, "PriceId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" id="app">
+                @Html.DropDownListFor(m => m.WinningNumber.PriceId,
+       new SelectList(Model.Prices, "Id", "PriceName"), "Select Price"
+       , new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.WinningNumber.PriceId)
+                <span class="field-validation-valid text-danger" data-valmsg-for="WinningNumber.PriceId" data-valmsg-replace="true">@ViewBag.span</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Award" class="btn btn-default text-center" />
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("GenerateRandomFromDb", "Winning"))
+{
+    <div class="form-group" style="left: -10px; position: relative;">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Generate Randomly" class="btn btn-default" />
+        </div>
+    </div>
+
+}
+<hr />
+@section scripts{
+    <script>
+        $(function () {
+            document.getElementById("WinningNumber_Number").readOnly = true;
+            document.getElementById("WinningNumber_Number").style.color = red;
+
+            $("#app > span").append("Hello");
+        })
+    </script>
+    }
+
+
