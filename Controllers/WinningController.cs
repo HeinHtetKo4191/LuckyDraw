@@ -145,11 +145,15 @@ namespace LuckyD.Controllers
             };
             if (id == 1) {
                 ViewBag.span = "Please select the price name";
-                ViewBag.winning = "Please press generate randomly button";
+                ViewBag.winning = "Please press the number";
             }
             if (id == 2)
             {
                 ViewBag.span = "The Price you have choosen is already Awarded!!";
+            }
+            if (id == 3)
+            {
+                ViewBag.winning = "The Winner you have choosen is already Awarded!!";
             }
             return View(viewModel);
         }
@@ -159,6 +163,7 @@ namespace LuckyD.Controllers
         [HttpPost]
         public ActionResult GenerateRandomFromDb(WinningNumber winningNumber)
         {
+            
             var pri = _context.Prices;
             var viewModel = new CustomViewModel
             {
@@ -210,12 +215,16 @@ namespace LuckyD.Controllers
                     
                     var award = winningNumber.PriceId;
                     bool actual = _context.Prices.Where(x => x.Id == award && x.IsAwarded == false).Any();
+                    var winner = _context.WinningNumber
+                        .Where(x => x.Number == winningNumber.Number)
+                        .SingleOrDefault();
+
+                    bool cond = _context.WinningNumber.Where(x => x.Price.Winner == winner.User).Any();
+
+                    if (cond == false) { 
                     if (actual == true)
                     {
-                        var winner = _context.WinningNumber
-            .Where(x => x.Number == winningNumber.Number)
-            .SingleOrDefault();
-
+                        
                         var list = _context.WinningNumber
                             .Where(x => x.User == winner.User)
                             .ToList();
@@ -242,6 +251,12 @@ namespace LuckyD.Controllers
                     else
                     {
                         return RedirectToAction("Admin","Winning",new {id =2 });
+                    }
+
+                    }
+                    else
+                    {
+                        return RedirectToAction("Admin", "Winning", new { id = 3 });
                     }
                 }
                 else

@@ -17,7 +17,7 @@
         <div class="form-group" style="margin-top: 40px;">
             @Html.LabelFor(model => model.WinningNumber.Number, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.WinningNumber.Number, new { htmlAttributes = new { @class = "form-control",placeholder = "Please Press Generate Randomly Button", @Value = @ViewBag.Random } })
+                @Html.EditorFor(model => model.WinningNumber.Number, new { htmlAttributes = new { @class = "form-control", @Value = @ViewBag.Random } })
                 @Html.ValidationMessageFor(model => model.WinningNumber.Number,"", new { @class = "text-danger" })
             <span class="field-validation-valid text-danger" data-valmsg-for="WinningNumber.Number" data-valmsg-replace="true">@ViewBag.winning</span>
 
@@ -48,7 +48,7 @@
 {
     <div class="form-group" style="left: -10px; position: relative;">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Generate Randomly" class="btn btn-default" />
+            <input type="submit" value="Generate Super User" class="btn btn-default" />
         </div>
     </div>
 
@@ -57,7 +57,7 @@
 @section scripts{
     <script>
         $(function () {
-            document.getElementById("WinningNumber_Number").readOnly = true;
+            //document.getElementById("WinningNumber_Number").readOnly = true;
             document.getElementById("WinningNumber_Number").style.color = red;
 
             $("#app > span").append("Hello");
