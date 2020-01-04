@@ -26,23 +26,5 @@ namespace LuckyD.Models
         [Required]
         public int PriceId { get; set; }
 
-        //IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        //{
-        //    ApplicationDbContext db = new ApplicationDbContext();
-        //    var validateName = db.WinningNumber.FirstOrDefault
-        //    (x => x.Price.IsAwarded == true);
-        //    if (validateName != null)
-        //    {
-        //        ValidationResult errorMessage = new ValidationResult
-        //        ("Price name already awarded.", new[] { "PriceId" });
-        //        yield return errorMessage;
-        //    }
-        //    else
-        //    {
-        //        yield return ValidationResult.Success;
-        //    }
-        //}
-
-
     }
 }

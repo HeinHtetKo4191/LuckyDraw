@@ -36,26 +36,6 @@ namespace LuckyD.Controllers
             }
         }
 
-        //Custom Validation for Price Picking
-        public JsonResult IsPriceExist(int PriceId, Price Price)
-        {
-            var validateName = _context.WinningNumber.FirstOrDefault
-                                (x => x.Price.Id == PriceId &&
-                                x.Price == Price &&
-                                x.Price.IsAwarded == true);
-            if (validateName != null)
-            {
-                return Json(false, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json(true, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-
-
-
         //Generate RandomNo
 
         public ActionResult GenerateRandomNum()
@@ -91,14 +71,34 @@ namespace LuckyD.Controllers
                     ViewBag.count = list.Count();
                     int qty = list.Count() + 1;
                     int allqty = alist.Count() + 1;
+                    var sysusr = _context.WinningNumber.Where(x => x.User == id).Select(x => x.PriceId).First(); 
+                    bool condition = _context.WinningNumber.Where(x => x.User == id && x.IsWinner == true).Any();
 
-                    winningNumber.PriceId = 7;
-                    winningNumber.User = User.Identity.GetUserName().First().ToString().ToUpper() + User.Identity.GetUserName().Split('@')[0].Substring(1);
-                    winningNumber.Quantity = qty;
-                    winningNumber.AllQuentity = allqty;
-                    _context.WinningNumber.Add(winningNumber);
-                    _context.SaveChanges();
-                    return RedirectToAction("About");
+                    if (condition == true)
+                    {
+                        winningNumber.PriceId = sysusr;
+                        winningNumber.IsWinner = true;
+                        winningNumber.User = id;
+                        winningNumber.Quantity = qty;
+                        winningNumber.AllQuentity = allqty;
+                        _context.WinningNumber.Add(winningNumber);
+                        _context.SaveChanges();
+
+                        return RedirectToAction("About");
+                    }
+
+                    else
+                    {
+                        winningNumber.PriceId = 7;
+                        winningNumber.User = id;
+                        winningNumber.Quantity = qty;
+                        winningNumber.AllQuentity = allqty;
+                        _context.WinningNumber.Add(winningNumber);
+                        _context.SaveChanges();
+
+                        return RedirectToAction("About");
+                    }
+                    
                 }
                 else
                 {
