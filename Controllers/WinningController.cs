@@ -158,7 +158,7 @@ namespace LuckyD.Controllers
             return View(viewModel);
         }
 
-        //Post: Admin GenerateRandomFromDb
+        //Post: Admin GenerateRandomFromDb  
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult GenerateRandomFromDb(WinningNumber winningNumber)
